@@ -19,6 +19,7 @@
     "@prisma/client": "^4.12.0",
     "@types/node": "^18.15.11",
     "express": "^4.18.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "password-hash": "^1.2.2"
   }
 }
