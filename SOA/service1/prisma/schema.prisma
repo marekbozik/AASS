@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://z7ojd6wegx93myczwc0d:pscale_pw_Yd1xrKwu0coNKuqyBNfhieuncFBe4WBQs0XXDTl9QDJ@aws.connect.psdb.cloud/ais?sslaccept=strict"
+}
+
+model User {
+    Id Int @id @default(autoincrement())
+    FirstName String
+    LastName  String
+    Email String  @unique
+    PasswordHash String
+    IsTeacher Boolean @default(false)
+  }
+
