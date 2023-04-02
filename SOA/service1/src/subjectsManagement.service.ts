@@ -40,14 +40,17 @@ export class SubjectService {
         try {
             const subjectId = request.body.subjectId;
             const subjects = subjectId
-                ? await prisma.group.findMany()
-                : await prisma.group.findMany({
-                    where: {
-                        Id: subjectId
+                ? await prisma.group.findMany({
+                        where: {
+                            Id: subjectId
+                        }
                     }
-                });
+                )
+                : await prisma.group.findMany();
 
-            return await response.status(200).json({ subjects });
+            return response
+                ? await response.status(200).json({ subjects })
+                : subjects;
         } catch (err) {
             return response.status(500).json({ error: 'Internal Server Error' });
         }
