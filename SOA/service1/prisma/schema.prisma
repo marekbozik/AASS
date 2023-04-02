@@ -11,11 +11,24 @@ datasource db {
 }
 
 model User {
-    Id Int @id @default(autoincrement())
-    FirstName String
-    LastName  String
-    Email String  @unique
-    PasswordHash String
-    IsTeacher Boolean @default(false)
-  }
+  Id Int @id @default(autoincrement())
+  FirstName String
+  LastName  String
+  Email String  @unique
+  PasswordHash String
+  IsTeacher Boolean @default(false)
+}
+
+model Group {
+  Id Int @id @default(autoincrement())
+  Name String @unique
+  Code String @unique
+  TeacherId Int
+}
+
+model GroupMembers {
+  Id Int @id @default(autoincrement())
+  GroupId Int
+  UserId Int
+}
 
