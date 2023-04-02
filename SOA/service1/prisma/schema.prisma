@@ -32,3 +32,14 @@ model GroupMembers {
   UserId Int
 }
 
+model Grade {
+  Id Int @id @default(autoincrement())
+  TeacherId Int
+  StudentId Int
+  GroupId Int
+  Grade Int
+  Description String
+  CreatedAt DateTime @default(now())
+  IsFinalGrade Boolean @default(false)
+}
+
