@@ -66,4 +66,14 @@ export class AuthService {
             return response.status(500).json({ error: 'Internal Server Error' });
         }
     }
+
+    async isUserTeacher(userId: number) {
+        const user = await prisma.user.findUnique({
+            where: {
+                Id: userId
+            }
+        });
+
+        return user.IsTeacher;
+    }
 }
