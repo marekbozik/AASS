@@ -7,7 +7,7 @@ const prisma = new PrismaClient({
 
 export class ClassificationService {
     async addClassification(request: Request, response: Response) {
-        const { teacherId, studentId, subjectId, grade, description, createdAt, isFinalGrade } = request.body;
+        const { teacherId, studentId, subjectId, grade, description, isFinalGrade } = request.body;
 
         try {
             const subjectStudents = await prisma.groupMembers.findMany({
@@ -29,7 +29,6 @@ export class ClassificationService {
                     GroupId: subjectId,
                     Grade: grade,
                     Description: description,
-                    CreatedAt: createdAt,
                     IsFinalGrade: isFinalGrade
                 }
             });
