@@ -38,7 +38,14 @@ export class SubjectService {
 
     async getSubjects(request: Request, response: Response) {
         try {
-            const subjects = await prisma.group.findMany();
+            const subjectId = request.body.subjectId;
+            const subjects = subjectId
+                ? await prisma.group.findMany()
+                : await prisma.group.findMany({
+                    where: {
+                        Id: subjectId
+                    }
+                });
 
             return await response.status(200).json({ subjects });
         } catch (err) {
