@@ -2,11 +2,13 @@ import express, { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { SubjectService } from './subjectsManagement.service';
 import { ClassificationService } from './classification.service';
+import { DocumentService } from './document.service';
 
 const app = express();
 const authService = new AuthService();
 const subjectService = new SubjectService();
 const classificationService = new ClassificationService();
+const documentService = new DocumentService();
 
 app.use(express.json());
 
@@ -36,6 +38,14 @@ app.post('/addClassification', (req: Request, res: Response) => {
 
 app.get('/getClassification', (req: Request, res: Response) => {
   classificationService.getSubjectClassification(req, res);
+});
+
+app.post('/addDocument', (req: Request, res: Response) => {
+  documentService.addDocument(req, res);
+});
+
+app.get('/getDocuments', (req: Request, res: Response) => {
+  documentService.getDocuments(req, res);
 });
 
 app.listen(3000, () => {

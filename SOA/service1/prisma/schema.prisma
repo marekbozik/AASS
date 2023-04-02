@@ -43,3 +43,10 @@ model Grade {
   IsFinalGrade Boolean @default(false)
 }
 
+model Document {
+  Id Int @id @default(autoincrement())
+  Title String
+  DocumentText String
+  CreatedAt DateTime @default(now())
+  GroupId Int
+}
