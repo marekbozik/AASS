@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { group } from 'console';
+import { AuthService } from './auth.service';
+
+const authService = new AuthService();
 
 const prisma = new PrismaClient({
     log: ['query', 'info', 'warn'],
@@ -10,6 +14,12 @@ export class SubjectService {
         const { name, code, teacherId } = request.body;
 
         try {
+            const isTeacher = await authService.isUserTeacher(teacherId);
+
+            if (!isTeacher) {
+                return response.status(401).json({ message: 'Reference to teacher not valid' });
+            }
+
             const existingSubject = await prisma.group.findUnique({
                 where: {
                     Code: code
@@ -60,38 +70,43 @@ export class SubjectService {
         const { subjectId, studentId } = request.body;
 
         try {
-            const subjectRegistrations = await prisma.groupMembers.findMany({
+            
+            const subjectCount = await prisma.group.count({
                 where: {
-                    GroupId: subjectId,
+                    Id: subjectId
                 }
             });
 
-            const existingRegistration = subjectRegistrations.find((user) => user.UserId === studentId);
+            const isExistingSubject = subjectCount == 1 ? true : false;
 
-
-            if (existingRegistration) {
-                return response.status(409).json({ message: 'Registration already exists' });
+            if (!isExistingSubject) {
+                return response.status(404).json({ message: 'Subject not found' });
             }
 
+            //TODO: rewrite to service call
             const user = await prisma.user.findUnique({
                 where: {
                     Id: studentId
                 }
             });
 
-            if (user.IsTeacher) {
+            if (!user || user.IsTeacher) {
                 return response.status(409).json({ message: 'User is a teacher' });
             }
 
-            const subject = await prisma.group.findUnique({
+            const subjectRegistrations = await prisma.groupMembers.findMany({
                 where: {
-                    Id: subjectId
+                    GroupId: subjectId,
                 }
             });
 
-            if (!subject) {
-                return response.status(404).json({ message: 'Subject not found' });
+            const existingRegistration = subjectRegistrations.find(groupMember => groupMember.UserId === studentId);
+
+
+            if (existingRegistration) {
+                return response.status(409).json({ message: 'Registration already exists' });
             }
+
 
             const registration = await prisma.groupMembers.create({
                 data: {

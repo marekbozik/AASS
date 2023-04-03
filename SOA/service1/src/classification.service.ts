@@ -10,9 +10,10 @@ export class ClassificationService {
         const { teacherId, studentId, subjectId, grade, description, isFinalGrade } = request.body;
 
         try {
+            //TODO: rewrite as single query / subjectManagement service call
             const subjectStudents = await prisma.groupMembers.findMany({
                 where: {
-                    GroupId: subjectId
+                    GroupId: subjectId,
                 }
             });
 
