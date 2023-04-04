@@ -66,47 +66,42 @@ export class SubjectService {
         }
     }
 
+    async getStudentRegistrations(request: Request, response: Response) {
+        const { subjectId, studentId } = request.body;
+
+        try {
+            const registrations = await prisma.groupMembers.findMany({
+                where: { UserId: studentId } 
+            });
+
+            return response? await response.status(200).json({ registrations }) : registrations;
+
+        } catch (err) {
+            return response.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+
+
     async subjectRegistration(request: Request, response: Response) {
         const { subjectId, studentId } = request.body;
 
         try {
-            
-            const subjectCount = await prisma.group.count({
-                where: {
-                    Id: subjectId
-                }
-            });
-
-            const isExistingSubject = subjectCount == 1 ? true : false;
-
-            if (!isExistingSubject) {
-                return response.status(404).json({ message: 'Subject not found' });
-            }
-
-            //TODO: rewrite to service call
-            const user = await prisma.user.findUnique({
-                where: {
-                    Id: studentId
-                }
-            });
-
-            if (!user || user.IsTeacher) {
+            if (!authService.isUserTeacher(studentId)) {
                 return response.status(409).json({ message: 'User is a teacher' });
             }
 
-            const subjectRegistrations = await prisma.groupMembers.findMany({
-                where: {
-                    GroupId: subjectId,
-                }
-            });
+            const subject = this.getSubjects(request, null);
 
-            const existingRegistration = subjectRegistrations.find(groupMember => groupMember.UserId === studentId);
+            if (!subject) {
+                return response.status(404).json({ message: 'Subject not found' });
+            }
 
+            const studentRegistrations = await this.getStudentRegistrations(request, null);
+            const existingRegistration = studentRegistrations.find(groupMember => groupMember.GroupId === subjectId);
 
             if (existingRegistration) {
                 return response.status(409).json({ message: 'Registration already exists' });
             }
-
 
             const registration = await prisma.groupMembers.create({
                 data: {
