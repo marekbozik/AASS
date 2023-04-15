@@ -43,9 +43,10 @@ export class AuthService {
     }
 
     async loginUser(request: Request, response: Response) {
-        const { email, password } = request.body;
 
         try {
+            console.log(request);
+            const { email, password } = request.body;
             const user = await prisma.user.findUnique({
                 where: {
                     Email: email
@@ -53,14 +54,14 @@ export class AuthService {
             });
     
             if (!user) {
-                return response.status(404).json({ message: 'User not found' });
+                return response.status(401).json({ message: 'User not found', user: null });
             }
     
             if (!comparePassword(password, user.PasswordHash)) {
-                return response.status(401).json({ message: 'Invalid password' });
+                return response.status(401).json({ message: 'Invalid password', user: null });
             }
     
-            return response.status(200).json({ message: 'User logged in' });
+            return response.status(200).json({ message: 'User logged in', user: user });
         } catch (err) {
             console.error(err);
             return response.status(500).json({ error: 'Internal Server Error' });

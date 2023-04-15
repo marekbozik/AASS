@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { SubjectService } from './subjectsManagement.service';
 import { ClassificationService } from './classification.service';
 import { DocumentService } from './document.service';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
 const app = express();
 const authService = new AuthService();
@@ -10,7 +12,8 @@ const subjectService = new SubjectService();
 const classificationService = new ClassificationService();
 const documentService = new DocumentService();
 
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
 
 app.post('/register', (req: Request, res: Response) => {
   authService.registerUser(req, res);
