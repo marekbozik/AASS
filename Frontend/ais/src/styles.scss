@@ -1,0 +1,22 @@
+@use 'themes' as *;
+
+@use '@nebular/theme/styles/globals' as *;
+
+@include nb-install() {
+  @include nb-theme-global();
+};
+
+@import 'ngx-toastr/toastr';
+
+/* You can add global styles to this file, and also import other style files */
+
+// label {
+//   padding: 10px;
+// }
+
+// .form-group {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-bottom: 30px;
+// }

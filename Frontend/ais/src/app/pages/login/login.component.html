@@ -1,0 +1,63 @@
+<div>
+    <nb-card>
+      <nb-card-header>
+        <h1 class="h4">Login</h1>
+      </nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <div class="form-group">
+            <label >Email</label>
+            <input
+              type="email"
+              nbInput
+              formControlName="email"
+              class="form-control"
+              placeholder="Enter email"
+            >
+            <div
+              class="invalid-feedback"
+              *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched"
+            >
+              Email is required
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="loginForm.controls['email'].hasError('email') && loginForm.controls['email'].touched"
+            >
+              Invalid email
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              nbInput
+              formControlName="password"
+              class="form-control"
+              placeholder="Enter password"
+            >
+            <div
+              class="invalid-feedback"
+              *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched"
+            >
+              Password is required
+            </div>
+          </div>
+          <div class="form-group">
+            <nb-checkbox formControlName="rememberMe">Remember me</nb-checkbox>
+          </div>
+          <div class="form-group">
+            <button
+              nbButton
+              type="submit"
+              [disabled]="!loginForm.valid"
+              class="btn btn-primary"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
