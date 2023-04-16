@@ -58,8 +58,21 @@ export class SubjectService {
                 )
                 : await prisma.group.findMany();
 
+            const users = await prisma.user.findMany();
+
+            const subjectsWithTeacher = subjects.map(subject => {
+                let teacher = users.find(user => user.Id === subject.TeacherId);
+                // exclude PasswordHash and Teacher status from teacher object
+                teacher = { ...teacher, PasswordHash: undefined, IsTeacher: undefined };
+
+                return {
+                    ...subject,
+                    Teacher: teacher
+                }
+            });
+
             return response
-                ? await response.status(200).json({ subjects })
+                ? await response.status(200).json(subjectsWithTeacher)
                 : subjects;
         } catch (err) {
             return response.status(500).json({ error: 'Internal Server Error' });
@@ -74,7 +87,24 @@ export class SubjectService {
                 where: { UserId: studentId } 
             });
 
-            return response? await response.status(200).json({ registrations }) : registrations;
+            const subjects = await prisma.group.findMany();
+            const users = await prisma.user.findMany();
+
+            const subjectRegistrations = registrations.map(registration => {
+                const subject = subjects.find(subject => subject.Id === registration.GroupId);
+                let teacher = users.find(user => user.Id === subject.TeacherId);
+                // exclude PasswordHash and Teacher status from teacher object
+                teacher = { ...teacher, PasswordHash: undefined, IsTeacher: undefined };
+
+                return {
+                    subjectId: subject.Id,
+                    subjectName: subject.Name,
+                    subjectCode: subject.Code,
+                    teacher: teacher
+                }
+            });
+
+            return response? await response.status(200).json({ subjectRegistrations }) : registrations;
 
         } catch (err) {
             return response.status(500).json({ error: 'Internal Server Error' });
@@ -100,7 +130,7 @@ export class SubjectService {
             const existingRegistration = studentRegistrations.find(groupMember => groupMember.GroupId === subjectId);
 
             if (existingRegistration) {
-                return response.status(409).json({ message: 'Registration already exists' });
+                return response.status(202).json({ message: 'Registration already exists' });
             }
 
             const registration = await prisma.groupMembers.create({
