@@ -1,19 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { PagesRoutingModule } from './pages-routing.module';
-import { LoginComponent } from './login/login.component';
-import { PagesService } from './pages.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbThemeModule, NbLayoutModule, NbInputModule, NbButtonModule, NbCheckboxModule, NbCardModule, NbTreeGridModule, NbIconModule } from '@nebular/theme';
+import { PagesService } from './pages.service';
+
+import { LoginComponent } from './login/login.component';
 import { DasboardComponent } from './dasboard/dasboard.component';
 import { SubjectsComponent } from './subjects/subjects.component';
+import { GradesComponent } from './grades/grades.component';
+
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbInputModule,
+  NbButtonModule,
+  NbCheckboxModule,
+  NbCardModule,
+  NbTreeGridModule,
+  NbIconModule,
+} from '@nebular/theme';
 
 @NgModule({
   declarations: [
     LoginComponent,
     DasboardComponent,
-    SubjectsComponent
+    SubjectsComponent,
+    GradesComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +39,8 @@ import { SubjectsComponent } from './subjects/subjects.component';
     FormsModule,
     ReactiveFormsModule,
     NbTreeGridModule,
-    NbIconModule
+    NbIconModule,
+    
   ],
   exports: [
     LoginComponent

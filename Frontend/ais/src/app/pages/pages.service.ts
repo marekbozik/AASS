@@ -47,4 +47,12 @@ export class PagesService {
 
       return await this.http.post(`${baseUrl}subjectRegistration`, JSON.stringify(body), { headers: headers, observe: 'response' })
     }
+
+    // api call get all student grades
+    async getStudentGrades(userId: number) {
+      const body = { "studentId": userId };
+      const options = { headers: new HttpHeaders().set('Content-Type', 'application/json'), body: JSON.stringify(body) };
+
+      return this.http.get(`${baseUrl}getClassification`, options);
+    }
 }

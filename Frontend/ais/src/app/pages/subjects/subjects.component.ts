@@ -35,8 +35,7 @@ export class SubjectsComponent {
 
   constructor(
     private pagesService: PagesService,
-    private toastrService: ToastrService,
-    private cdRef: ChangeDetectorRef
+    private toastrService: ToastrService
   ) { }
 
   async ngOnInit() {
