@@ -43,7 +43,7 @@ export class ClassificationService {
     }
 
     async getSubjectClassification(request: Request, response: Response) {
-        const { subjectId, studentId } = request.body;
+        const { studentId } = request.body;
 
         try {
             const allStudentGrades = await prisma.grade.findMany({
@@ -52,9 +52,7 @@ export class ClassificationService {
                 }
             });
 
-            const subjectGrades = allStudentGrades.filter(grade => grade.GroupId === subjectId);
-
-            return await response.status(201).json({ subjectGrades });
+            return await response.status(201).json(allStudentGrades);
         } catch (err) {
             return response.status(500).json({ error: 'Internal Server Error' });
         }
