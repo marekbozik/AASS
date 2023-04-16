@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PagesService } from '../pages.service';
 import { User } from 'src/app/interfaces';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class DasboardComponent implements OnInit {
 
   name = '';
+  toady = new Date();
 
   constructor(
     private pagesService: PagesService,
@@ -19,9 +20,17 @@ export class DasboardComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.pagesService.isAuthenticated) {
-      this.name = this.pagesService.authenticatedUser.FirstName || 'Marek Parek';
+      this.name = this.pagesService.authenticatedUser.FirstName;
     } else {
       this.router.navigate(['./login']);
     }
+
+    // get value Toady is Sunday
+    this.toady = new Date();
+    console.log(this.toady.getDay());
+  }
+
+  pickSubjects() {
+    this.router.navigate(['./subjects']);
   }
 }

@@ -1,1 +1,58 @@
-<h1>Welcome {{name}}</h1>
+<div style="width: 70%;margin: 0 auto; padding-top: 40px;padding: 20px;">
+  <h1>Welcome {{name}}</h1>
+
+  <div class="card-row">
+    <div class="card-col">
+      <nb-card size="tiny">
+        <nb-card-header>Current wheather</nb-card-header>
+        <nb-card-body>
+          <div style="justify-content: center; align-items: center; display: flex;">
+            <i style="font-size: 5rem;" class="fa-sharp fa-regular fa-sun fa-2xl"></i>
+            <div style="margin-left: 1rem;">
+              <h1 style="font-size: 3rem;">{{'17'}}°C</h1>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="card-col">
+      <nb-card size="tiny">
+        <nb-card-header>Today is Sunday</nb-card-header>
+        <nb-card-body>
+          <div style="justify-content: center; align-items: center; display: flex;">
+            <i style="font-size: 5rem;" class="fa-regular fa-calendar fa-2xl"></i>
+            <!-- display one on top of the other -->
+            <div style="margin-left: 2.3rem;">
+              <h2 style="margin-top: 0;">{{'16th'}}</h2>
+              <h2 style="margin-bottom: 0;">{{'April'}}</h2>
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+  <nb-card accent="danger">
+    <nb-card-header>It's time to pick your subjects!</nb-card-header>
+    <nb-card-body>
+      <p>
+        You have not yet picked your subjects for the upcoming semester. Please
+        pick your subjects by clicking the button below.
+      </p>
+      <button nbButton (click)="pickSubjects()" status="danger">
+        Pick subjects
+      </button>
+    </nb-card-body>
+  </nb-card>
+  <nb-card accent="warning">
+    <nb-card-header>You have new grades from your teacher!</nb-card-header>
+    <nb-card-body>
+      <p>
+        You have new grades from your teacher. Please check your grades by
+        clicking the button below.
+      </p>
+      <button nbButton (click)="pickSubjects()" status="warning">
+        Check grades
+      </button>
+    </nb-card-body>
+  </nb-card>
+</div>

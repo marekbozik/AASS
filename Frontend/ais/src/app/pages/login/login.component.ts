@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
       (await this.pagesService.login(email, password)).subscribe((res: any) => {
         if (res.status === 200) {
-          this.toastrService.success('Hello world!', 'Login successful', {
+          this.toastrService.success('Wellcome back!', 'Login successful', {
             positionClass: 'toast-top-right'
           });
 
