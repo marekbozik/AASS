@@ -31,6 +31,10 @@ app.get('/getSubjects', (req: Request, res: Response) => {
   subjectService.getSubjects(req, res);
 });
 
+app.get('/getStudentRegistrations', (req: Request, res: Response) => {
+  subjectService.getStudentRegistrations(req, res);
+});
+
 app.post('/subjectRegistration', (req: Request, res: Response) => {
   subjectService.subjectRegistration(req, res);
 });

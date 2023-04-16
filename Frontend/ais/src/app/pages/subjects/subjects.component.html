@@ -1,0 +1,63 @@
+<nb-card>
+  <nb-card-header>
+    <h1 class="h4">My subjects</h1>
+  </nb-card-header>
+    <nb-card-body>
+    <table [nbTreeGrid]="mySubjects" equalColumnsWidth>
+
+      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+      <ng-container [nbTreeGridColumnDef]="customColumn">
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+
+          {{row.data.subjectName}}
+
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column]}}</td>
+      </ng-container>
+
+      <ng-container nbTreeGridColumnDef="actions">
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <button >Custom Function</button>
+        </td>
+      </ng-container>
+
+    </table>
+
+  </nb-card-body>
+</nb-card>
+
+<nb-card>
+  <nb-card-header>
+    <h1 class="h4">Available subjects</h1>
+  </nb-card-header>
+    <nb-card-body>
+    <table [nbTreeGrid]="availableSubjects" equalColumnsWidth>
+
+      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: availableSubjectsAllColumns"></tr>
+
+      <ng-container [nbTreeGridColumnDef]="customColumn">
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+
+          {{row.data.subjectName}}
+
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column]}}</td>
+      </ng-container>
+
+      <ng-container nbTreeGridColumnDef="actions">
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <button nbButton (click)="addSubject(row)" status="success">Add subject</button>
+        </td>
+      </ng-container>
+
+    </table>
+
+  </nb-card-body>
+</nb-card>

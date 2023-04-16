@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
-      const rememberMe = this.loginForm.get('rememberMe')?.value;
 
       (await this.pagesService.login(email, password)).subscribe((res: any) => {
         if (res.status === 200) {
@@ -42,6 +41,7 @@ export class LoginComponent implements OnInit {
           });
 
           this.pagesService.isAuthenticated.next(true);
+          this.pagesService.authenticatedUser = res.body.user;
           this.router.navigate(['./dashboard']);
         }
 

@@ -5,8 +5,8 @@
 
       <nb-actions *ngIf="isAuthenticated">
         <nb-action icon="person-outline" [nbTooltip]="'Account'"></nb-action>
-        <nb-action icon="settings-2-outline"></nb-action>
-        <nb-action icon="log-out-outline" (click)="logout()"></nb-action>
+        <nb-action icon="settings-2-outline" [nbTooltip]="'Settings'"></nb-action>
+        <nb-action icon="log-out-outline" [nbTooltip]="'Logout'" (click)="logout()"></nb-action>
       </nb-actions>
     </div>
   </nb-layout-header>
