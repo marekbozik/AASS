@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "name": "charge-card-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/worker.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "camunda-external-task-client-js": "^3.0.0-alpha1"
+  },
+  "devDependencies": {
+    "open": "^9.1.0"
+  }
+}
