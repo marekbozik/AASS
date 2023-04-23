@@ -43,7 +43,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1gssk89" sourceRef="getSubject" targetRef="Gateway_1at93l2" />
     <bpmn:sequenceFlow id="Flow_091794q" name="Yes" sourceRef="Gateway_1at93l2" targetRef="getUserRegistration">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${subject.numberValue() &gt; 0}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${subjectExists &gt; 0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="getUserRegistration" name="Get user registration" camunda:type="external" camunda:topic="get-user-registration">
       <bpmn:incoming>Flow_091794q</bpmn:incoming>
@@ -56,22 +56,28 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0tojdtl" sourceRef="getUserRegistration" targetRef="Gateway_0cwgqqk" />
     <bpmn:sequenceFlow id="Flow_1v6eqen" name="No" sourceRef="Gateway_0cwgqqk" targetRef="registerSubject">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${registration.numberValue() &lt; 1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${registrationExists &lt; 1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="registerSubject" name="Register subject" camunda:type="external" camunda:topic="register-subject">
       <bpmn:incoming>Flow_1v6eqen</bpmn:incoming>
       <bpmn:outgoing>Flow_1d4ulb6</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_156synk" name="No" sourceRef="Gateway_1at93l2" targetRef="registrationFailed">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${subject.numberValue() &lt; 1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${subjectExists &lt; 1}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0buvuli" name="Yes" sourceRef="Gateway_0cwgqqk" targetRef="registrationFailed">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${registration.numberValue() &gt; 0}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${registrationExists &gt; 0}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="registrationSuccessful" name="Registration successful">
-      <bpmn:incoming>Flow_1d4ulb6</bpmn:incoming>
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0yov8fc</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1d4ulb6" sourceRef="registerSubject" targetRef="registrationSuccessful" />
+    <bpmn:sequenceFlow id="Flow_1d4ulb6" sourceRef="registerSubject" targetRef="finalize-registration" />
+    <bpmn:sequenceFlow id="Flow_0yov8fc" sourceRef="finalize-registration" targetRef="registrationSuccessful" />
+    <bpmn:serviceTask id="finalize-registration" name="Finalize Registration" camunda:type="external" camunda:topic="finalize-registration">
+      <bpmn:incoming>Flow_1d4ulb6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yov8fc</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="subjectRegistration">
@@ -120,10 +126,13 @@
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1eeg0z0_di" bpmnElement="registrationSuccessful">
-        <dc:Bounds x="1232" y="99" width="36" height="36" />
+        <dc:Bounds x="1482" y="99" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1222" y="142" width="59" height="27" />
+          <dc:Bounds x="1472" y="142" width="59" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dckk4i_di" bpmnElement="finalize-registration">
+        <dc:Bounds x="1260" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1wz3o7j_di" bpmnElement="Flow_1wz3o7j">
         <di:waypoint x="215" y="117" />
@@ -187,7 +196,11 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1d4ulb6_di" bpmnElement="Flow_1d4ulb6">
         <di:waypoint x="1150" y="117" />
-        <di:waypoint x="1232" y="117" />
+        <di:waypoint x="1260" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yov8fc_di" bpmnElement="Flow_0yov8fc">
+        <di:waypoint x="1360" y="117" />
+        <di:waypoint x="1482" y="117" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
