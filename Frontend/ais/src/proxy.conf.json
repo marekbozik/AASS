@@ -1,6 +1,6 @@
 {
-    "/*": {
-        "target": "http://localhost:3000",
+    "/engine-rest": {
+        "target": "http://localhost:8080",
         "secure": false,
         "logLevel": "debug"
     }

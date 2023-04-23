@@ -44,7 +44,7 @@ export class GradesComponent implements OnInit {
           Subject: 'AASS',
           Grade: grade.Grade,
           Description: grade.Description,
-          Teacher: 'Eugen Volvo',
+          Teacher: 'Eugen Molnar',
           Date: '01-01-2020',
           IsFinal: false,
         }}

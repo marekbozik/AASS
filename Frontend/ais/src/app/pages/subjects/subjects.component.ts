@@ -16,13 +16,13 @@ interface FSEntry {
 
 interface ResponseCamunda {
   id: string;
-  links: any[];
-  definitionId: string;
-  businessKey: string;
-  caseInstanceId: string;
-  ended: boolean;
-  suspended: boolean;
-  tenantId: string;
+  links?: any[];
+  definitionId?: string;
+  businessKey?: string;
+  caseInstanceId?: string;
+  ended?: boolean;
+  suspended?: boolean;
+  tenantId?: string;
 }
 
 @Component({
@@ -89,29 +89,31 @@ export class SubjectsComponent {
     let body = response?.body as ResponseCamunda;
     processInstanceId = body?.id;
 
-    await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {
-      console.log('process variables', data);
-    });
+    setTimeout(async () => {
+      await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {
+        console.log('process variables', data);
+      });
+    }, 2000);
 
-    (await this.pagesService.registerStudentToSubject(subjectId, this.userId)).subscribe((data: any) => {
-      if (data.status === 201) {
-        this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
+  //   (await this.pagesService.registerStudentToSubject(subjectId, this.userId)).subscribe((data: any) => {
+  //     if (data.status === 201) {
+  //       this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
 
-        //make success toast
-        this.toastrService.success('Subject added successfully', 'Success', {
-          positionClass: 'toast-top-right'
-        });
+  //       //make success toast
+  //       this.toastrService.success('Subject added successfully', 'Success', {
+  //         positionClass: 'toast-top-right'
+  //       });
 
-        this.fetchSubjects();
+  //       this.fetchSubjects();
 
-      } else {
-        //make error toast
-        this.toastrService.error('Registration already exists', 'Error', {
-          positionClass: 'toast-top-right'
-        });
-      }
+  //     } else {
+  //       //make error toast
+  //       this.toastrService.error('Registration already exists', 'Error', {
+  //         positionClass: 'toast-top-right'
+  //       });
+  //     }
 
-    });
+  //   });
   }
 
 }

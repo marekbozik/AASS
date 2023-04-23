@@ -70,7 +70,8 @@ export class PagesService {
           }
         }
       };
-      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      let headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', '*');
+
 
       return await this.http.post(camundaUrl + 'process-definition/key/subjectRegistration/start', JSON.stringify(body), { headers: headers, observe: 'response' })
     }
@@ -79,7 +80,10 @@ export class PagesService {
     async getCamundaProcessVariables(processInstanceId: string) {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       console.log('halooo',processInstanceId);
-      return await this.http.get(camundaUrl + `process-instance/${processInstanceId}/variables`, { headers: headers, observe: 'response' })
+      return await this.http.get(
+        `http://localhost:8080/engine-rest/process-instance/${processInstanceId}/variables`,
+        { headers: headers, observe: 'response' }
+      );
     }
 
     // api call get all student grades

@@ -12,7 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "camunda-external-task-client-js": "^3.0.0-alpha1"
+    "camunda-external-task-client-js": "^3.0.0-alpha1",
+    "dotenv": "^16.0.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.2.3",
+    "mysql2-promise": "^0.1.4"
   },
   "devDependencies": {
     "open": "^9.1.0"

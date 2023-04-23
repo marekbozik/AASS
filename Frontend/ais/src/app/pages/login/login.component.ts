@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
   
   async login() {
     if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
+      const email = 'adam@plnstak.com'// this.loginForm.get('email')?.value;
+      const password = 'password';this.loginForm.get('password')?.value;
 
       (await this.pagesService.login(email, password)).subscribe((res: any) => {
         if (res.status === 200) {
