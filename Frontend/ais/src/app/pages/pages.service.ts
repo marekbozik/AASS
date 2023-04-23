@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from '../interfaces';
 
 const baseUrl = 'http://localhost:3000/';
+const camundaUrl = 'http://localhost:8080/engine-rest/';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,32 @@ export class PagesService {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
       return await this.http.post(`${baseUrl}subjectRegistration`, JSON.stringify(body), { headers: headers, observe: 'response' })
+    }
+
+    // api call to get all student grades for a subject through camunda
+    async registerStudentToSubjectCamunda(subjectId: number, studentId: number) {
+      const body = {
+        "variables": {
+          "subjectId": {
+            "value": subjectId,
+            "type":"integer"
+          },
+          "studentId": {
+            "value": studentId,
+            "type": "integer"
+          }
+        }
+      };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+      return await this.http.post(camundaUrl + 'process-definition/key/subjectRegistration/start', JSON.stringify(body), { headers: headers, observe: 'response' })
+    }
+
+    // api call to get all process variables for a subject registration process instance
+    async getCamundaProcessVariables(processInstanceId: string) {
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      console.log('halooo',processInstanceId);
+      return await this.http.get(camundaUrl + `process-instance/${processInstanceId}/variables`, { headers: headers, observe: 'response' })
     }
 
     // api call get all student grades

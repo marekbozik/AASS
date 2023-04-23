@@ -14,6 +14,17 @@ interface FSEntry {
   teacher: string;
 }
 
+interface ResponseCamunda {
+  id: string;
+  links: any[];
+  definitionId: string;
+  businessKey: string;
+  caseInstanceId: string;
+  ended: boolean;
+  suspended: boolean;
+  tenantId: string;
+}
+
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
@@ -72,6 +83,15 @@ export class SubjectsComponent {
   async addSubject(subject: any) {
     const clickedSubject = subject.data;
     const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
+    let processInstanceId = "";
+
+    const response = await (await this.pagesService.registerStudentToSubjectCamunda(subjectId, this.userId)).toPromise();
+    let body = response?.body as ResponseCamunda;
+    processInstanceId = body?.id;
+
+    await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {
+      console.log('process variables', data);
+    });
 
     (await this.pagesService.registerStudentToSubject(subjectId, this.userId)).subscribe((data: any) => {
       if (data.status === 201) {
