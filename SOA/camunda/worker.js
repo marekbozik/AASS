@@ -63,6 +63,7 @@ async function createRegistration(studentId, subjectId) {
 
 client.subscribe('auth', async function({ task, taskService }) {
 
+  console.log('task 1: authenticate user');
   //subjectId, studentId
   const subjectId = task.variables.get('subjectId');
   const studentId = task.variables.get('studentId');
@@ -72,17 +73,16 @@ client.subscribe('auth', async function({ task, taskService }) {
 
   if (rows.length == 0) {
     const registrationSucessfull = -1;
-    console.log('task 1 REGISTRATION SET TO -1');
+    console.log('task 1: authentication failed');
     outputVariables.set('registrationSucessfull', registrationSucessfull);
   }
 
 
-  console.log('task 1: som tu a cakam na vajci: ', subjectId, studentId);
+  console.log('task 1: authentication successfull');
   const authValue = 1;
   outputVariables.set('auth', authValue);
   outputVariables.set('subjectId', subjectId);
   outputVariables.set('studentId', studentId);
-
 
   // Complete the task
   await taskService.complete(task, outputVariables);
@@ -90,6 +90,7 @@ client.subscribe('auth', async function({ task, taskService }) {
 
 client.subscribe('get-subject', async function({ task, taskService }) {
 
+  console.log('task 2: get subject');
   const subjectId = task.variables.get('subjectId');
   const studentId = task.variables.get('studentId');
 
@@ -98,11 +99,11 @@ client.subscribe('get-subject', async function({ task, taskService }) {
 
   if (rows.length == 0) {
     const registrationSucessfull = -1;
-    console.log('task 3 REGISTRATION SET TO -1');
+    console.log('task 2: subject does not exist');
     outputVariables.set('registrationSucessfull', registrationSucessfull);
   }
 
-  console.log('task 2: som tu a sedim na vajci: ', subjectId, studentId);
+  console.log('task 2: subject exists');
 
   const subjectExists = 1;
   outputVariables.set('subjectExists', subjectExists);
@@ -115,6 +116,7 @@ client.subscribe('get-subject', async function({ task, taskService }) {
 
 client.subscribe('get-user-registration', async function({ task, taskService }) {
 
+  console.log('task 3: get user registration');
   const subjectId = task.variables.get('subjectId');
   const studentId = task.variables.get('studentId');
 
@@ -123,7 +125,7 @@ client.subscribe('get-user-registration', async function({ task, taskService }) 
 
   if (rows.length != 0) {
     const registrationSucessfull = -1;
-    console.log('task 3 REGISTRATION SET TO -1', rows, rows.length);
+    console.log('task 3: user already registered');
     outputVariables.set('registrationSucessfull', registrationSucessfull);
   }
   
@@ -132,37 +134,34 @@ client.subscribe('get-user-registration', async function({ task, taskService }) 
   outputVariables.set('subjectId', subjectId);
   outputVariables.set('studentId', studentId);
 
-  console.log('task 3: zniesol som vajicka a cakaju na teba: ',  subjectId, studentId);
+  console.log('task 3: user not registered');
   // Complete the task
   await taskService.complete(task, outputVariables);
 });
 
 client.subscribe('register-subject', async function({ task, taskService }) {
   
+  console.log('task 4: register user to subject');
   const subjectId = task.variables.get('subjectId');
   const studentId = task.variables.get('studentId');
   let registrationAlreadySucessfull = task.variables.get('registrationSucessfull');
-  console.log('register: ', registrationAlreadySucessfull);
-
   
   if (registrationAlreadySucessfull == -1) {
-    console.log('task 5: slepocky pomreli: ', registrationAlreadySucessfull);
+    console.log('task 4: registration failed');
     registrationAlreadySucessfull = 0;
   } else {
     await createRegistration(studentId, subjectId);
     registrationAlreadySucessfull = 1;
   }
 
-  console.log('task 4: registered');
-
   const outputVariables = new Variables();
   const registrationSucessfull = registrationAlreadySucessfull;
   if (registrationSucessfull == -1) {
-    console.log('REGISTREREATION SUCESSFULL -1');
+    console.log('task 4: registration failed');
   }
   outputVariables.set('registrationSucessfull', registrationSucessfull);
-
-  console.log('task 4: hotovo: ', subjectId, studentId);
+  
+  console.log('task 4: user registered');
 
   // Complete the task
   await taskService.complete(task, outputVariables);
@@ -171,7 +170,7 @@ client.subscribe('register-subject', async function({ task, taskService }) {
 
 client.subscribe('finalize-registration', async function({ task, taskService }) {
   
-  console.log('task 5: finalizujem ');
+  console.log('task 5: finalize registration');
   //set timeout
   setTimeout(async () => {
 
