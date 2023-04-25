@@ -91,29 +91,23 @@ export class SubjectsComponent {
 
     setTimeout(async () => {
       await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {
-        console.log('process variables', data);
+        const variables = data.body;
+        const registrationSuccessful = variables.registrationSucessfull.value;
+
+        if (registrationSuccessful === 1) {
+          this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
+          this.toastrService.success('Subject added successfully', 'Success', {
+            positionClass: 'toast-top-right'
+          });
+
+          this.fetchSubjects();
+        } else {
+          this.toastrService.error('Registration already exists', 'Error', {
+            positionClass: 'toast-top-right'
+          });
+        }
       });
     }, 2000);
-
-  //   (await this.pagesService.registerStudentToSubject(subjectId, this.userId)).subscribe((data: any) => {
-  //     if (data.status === 201) {
-  //       this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
-
-  //       //make success toast
-  //       this.toastrService.success('Subject added successfully', 'Success', {
-  //         positionClass: 'toast-top-right'
-  //       });
-
-  //       this.fetchSubjects();
-
-  //     } else {
-  //       //make error toast
-  //       this.toastrService.error('Registration already exists', 'Error', {
-  //         positionClass: 'toast-top-right'
-  //       });
-  //     }
-
-  //   });
   }
 
 }

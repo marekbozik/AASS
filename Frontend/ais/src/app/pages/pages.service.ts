@@ -79,7 +79,6 @@ export class PagesService {
     // api call to get all process variables for a subject registration process instance
     async getCamundaProcessVariables(processInstanceId: string) {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
-      console.log('halooo',processInstanceId);
       return await this.http.get(
         `http://localhost:8080/engine-rest/process-instance/${processInstanceId}/variables`,
         { headers: headers, observe: 'response' }

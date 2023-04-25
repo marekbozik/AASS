@@ -37,7 +37,6 @@ export class GradesComponent implements OnInit {
     //make api call to get grades
     const userId = 42;//this.pagesService.authenticatedUser.Id || 42;
     (await this.pagesService.getStudentGrades(userId)).subscribe(async (data: any) => {
-      console.log(data);
       
       this.myGrades = data.map((grade: any) => {
         return { data: {
@@ -50,7 +49,6 @@ export class GradesComponent implements OnInit {
         }}
       });
 
-      console.log(this.myGrades);
     });
   }
 }
