@@ -1,8 +1,17 @@
 import { Client, logger, Variables } from 'camunda-external-task-client-js';
 import { getUsers, getSubject, getRegistration, createRegistration } from './db.js';
+import { exec } from 'child_process';
 
 const config = { baseUrl: 'http://localhost:8080/engine-rest', use: logger, asyncResponseTimeout: 10000 };
 const client = new Client(config);
+
+exec('open -n -a /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --args --user-data-dir="/tmp/chrome_dev_sess_1" --disable-web-security', (err, stdout, stderr) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(stdout);
+});
 
 client.subscribe('auth', async function ({ task, taskService }) {
 
