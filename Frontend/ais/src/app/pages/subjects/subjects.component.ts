@@ -48,9 +48,9 @@ export class SubjectsComponent {
 
   async fetchSubjects() {
     await (await this.pagesService.getStudentSubjects(this.user.Id)).subscribe(async (data: any) => {
-      this.subjects = data.subjectRegistrations;
+      this.subjects = data.body.subjectRegistrations;
 
-      this.mySubjects = this.subjects.map((subject: any) => {
+      this.mySubjects = this.subjects?.map((subject: any) => {
         const teacher = subject.teacher;
         const tmp = { data: { subjectName: subject.subjectName, subjectCode: subject.subjectCode, teacher: teacher.FirstName + ' ' + teacher.LastName } };
         return tmp;
@@ -60,8 +60,9 @@ export class SubjectsComponent {
 
   async fetchAvailableSubjects() {
     await (await this.pagesService.getSubjects(this.user.Id)).subscribe(async (data: any) => {
-      this.subjectData = data;
-      this.availableSubjects = data.map((subject: any) => {
+      this.subjectData = data.body;
+      console.log(data)
+      this.availableSubjects = data.body?.map((subject: any) => {
         const teacher = subject.Teacher;
         const tmp = { data: { subjectName: subject.Name, subjectCode: subject.Code, teacher: teacher.FirstName + ' ' + teacher.LastName } };
         return tmp;
@@ -77,6 +78,8 @@ export class SubjectsComponent {
     const response = await (await this.pagesService.registerStudentToSubjectCamunda(subjectId, this.user.Id)).toPromise();
     let body = response?.body as ResponseCamunda;
     processInstanceId = body?.id;
+
+    console.log(processInstanceId)
 
     setTimeout(async () => {
       await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {

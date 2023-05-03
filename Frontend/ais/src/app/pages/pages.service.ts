@@ -1,7 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { User } from '../interfaces';
 
 const baseUrl = 'http://localhost:3000/';
 const camundaUrl = 'http://localhost:8080/engine-rest/';
@@ -24,17 +22,17 @@ export class PagesService {
     // api call to get student subjects
     async getStudentSubjects(userId: number) {
       const body = { "subjectId": null, "studentId": userId };
-      const options = { headers: new HttpHeaders().set('Content-Type', 'application/json'), body: JSON.stringify(body) };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-      return this.http.get(`${baseUrl}getStudentRegistrations`, options);
+      return this.http.post(`${baseUrl}getStudentRegistrations`, JSON.stringify(body), { headers: headers, observe: 'response' });
     }
 
     // api call to get all subjects
     async getSubjects(userId: number) {
       const body = { "subjectId": null, "studentId": userId };
-      const options = { headers: new HttpHeaders().set('Content-Type', 'application/json'), body: JSON.stringify(body) };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-      return this.http.get(`${baseUrl}getSubjects`, options);
+      return this.http.post(`${baseUrl}getSubjects`, JSON.stringify(body), { headers: headers, observe: 'response' });
     }
 
     // api call to register student to subject
@@ -77,16 +75,16 @@ export class PagesService {
     // api call get all student grades
     async getStudentGrades(userId: number) {
       const body = { "studentId": userId };
-      const options = { headers: new HttpHeaders().set('Content-Type', 'application/json'), body: JSON.stringify(body) };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-      return this.http.get(`${baseUrl}getClassification`, options);
+      return this.http.post(`${baseUrl}getClassification`, JSON.stringify(body), { headers: headers, observe: 'response' });
     }
 
     async getStudentDocuments(userId: number) {
       const body = { "userId": userId };
-      const options = { headers: new HttpHeaders().set('Content-Type', 'application/json'), body: JSON.stringify(body) };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-      return this.http.get(`${baseUrl}getDocuments`, options);
+      return this.http.post(`${baseUrl}getDocuments`, JSON.stringify(body), { headers: headers, observe: 'response' });
     }
 
     async addNewDocument(title: string, documentText: string, subjectId: number, teacherId: number) {

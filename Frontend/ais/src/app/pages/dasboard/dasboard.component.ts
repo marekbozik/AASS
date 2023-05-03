@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { User } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-dasboard',
@@ -19,7 +20,8 @@ export class DasboardComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
-      this.name = this.authService.getUser().name;
+      const user: User = this.authService.getUser();
+      this.name = user.FirstName;
     } else {
       this.router.navigate(['./login']);
     }

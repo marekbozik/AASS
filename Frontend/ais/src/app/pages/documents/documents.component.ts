@@ -72,7 +72,7 @@ export class DocumentsComponent {
     await (await this.pagesService.getStudentDocuments(this.user.Id)).subscribe(async (data: any) => {
       this.documents = data[0];
 
-      this.documents = data.map((document: any) => {
+      this.documents = data.body?.map((document: any) => {
         const { Id, Title, DocumentText, CreatedAt } = document;
 
         return { data: {
@@ -88,7 +88,7 @@ export class DocumentsComponent {
 
   async fetchAvailableSubjects() {
     await (await this.pagesService.getSubjects(this.user.Id)).subscribe(async (data: any) => {
-      this.subjectData = data;
+      this.subjectData = data.body;
     });
   }
 

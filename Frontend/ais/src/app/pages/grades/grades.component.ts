@@ -40,7 +40,7 @@ export class GradesComponent implements OnInit {
   async fetchAllGrades() {
     (await this.pagesService.getStudentGrades(this.user.Id)).subscribe(async (data: any) => {
       
-      this.myGrades = data.map((grade: any) => {
+      this.myGrades = data.body?.map((grade: any) => {
         return { data: {
           Subject: 'AASS',
           Grade: grade.Grade,
