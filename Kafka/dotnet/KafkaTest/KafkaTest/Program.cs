@@ -10,20 +10,20 @@ class Program
 
         Parallel.Invoke(() =>
         {
-            // Create a Kafka producer
-            using (var producer = new ProducerBuilder<string, string>(config).Build())
-            {
-                // Produce a message to the "my-topic" topic
-                int i = 0;
-                while (true)
-                {
-                    producer.Produce("my-topic", new Message<string, string> { Key = "key", Value = $"value{i}"});
-                    Thread.Sleep(2000);
-                    i++;
-                    //if (i > 10)
-                    //    return;
-                }
-            }
+            //// Create a Kafka producer
+            //using (var producer = new ProducerBuilder<string, string>(config).Build())
+            //{
+            //    // Produce a message to the "my-topic" topic
+            //    int i = 0;
+            //    while (true)
+            //    {
+            //        producer.Produce("my-topic", new Message<string, string> { Key = "key", Value = $"value{i}"});
+            //        Thread.Sleep(2000);
+            //        i++;
+            //        //if (i > 10)
+            //        //    return;
+            //    }
+            //}
 
         },
         () =>

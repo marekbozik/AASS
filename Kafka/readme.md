@@ -9,3 +9,14 @@
 3. Check existing topics `kafka-topics.sh --list --zookeeper zookeeper:2181`
 
 4. Run C# code
+
+
+## Topics in use
+```
+my-topic
+result
+subject
+registration
+synchro
+register
+```

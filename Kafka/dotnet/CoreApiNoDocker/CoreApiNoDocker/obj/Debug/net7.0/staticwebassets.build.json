@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "IHKH92BXoruatt8y+cmNhuTl8p4CS5lndLfJKYKIMus=",
+  "Source": "CoreApiNoDocker",
+  "BasePath": "_content/CoreApiNoDocker",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
