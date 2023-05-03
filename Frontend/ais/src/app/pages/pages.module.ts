@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { DasboardComponent } from './dasboard/dasboard.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { GradesComponent } from './grades/grades.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 import {
   NbThemeModule,
@@ -25,7 +26,8 @@ import {
     LoginComponent,
     DasboardComponent,
     SubjectsComponent,
-    GradesComponent
+    GradesComponent,
+    DocumentsComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,6 @@ import {
     ReactiveFormsModule,
     NbTreeGridModule,
     NbIconModule,
-    
   ],
   exports: [
     LoginComponent

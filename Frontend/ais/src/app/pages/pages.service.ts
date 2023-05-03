@@ -92,4 +92,18 @@ export class PagesService {
 
       return this.http.get(`${baseUrl}getClassification`, options);
     }
+
+    async getStudentDocuments(userId: number) {
+      const body = { "userId": userId };
+      const options = { headers: new HttpHeaders().set('Content-Type', 'application/json'), body: JSON.stringify(body) };
+
+      return this.http.get(`${baseUrl}getDocuments`, options);
+    }
+
+    async addNewDocument(title: string, documentText: string, subjectId: number, teacherId: number) {
+      const body = { "title": title, "documentText": documentText, "subjectId": subjectId, "teacherId": teacherId };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+      return await this.http.post(`${baseUrl}addDocument`, JSON.stringify(body), { headers: headers, observe: 'response' });
+    }
 }

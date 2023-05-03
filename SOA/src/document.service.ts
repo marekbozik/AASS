@@ -47,7 +47,9 @@ export class DocumentService {
     }
 
     async getDocuments(request: Request, response: Response) {
-        const { subjectId, userId } = request.body;
+        let { subjectId, userId } = request.body;
+        subjectId = 4;
+        userId = 42;
 
         try {
             const subject = await subjectService.getSubjects(request, null);
@@ -78,7 +80,7 @@ export class DocumentService {
                 }
             });
 
-            return await response.status(201).json({ documents });
+            return await response.status(201).json(documents);
         } catch (err) {
             return response.status(500).json({ error: 'Internal Server Error' });
         }

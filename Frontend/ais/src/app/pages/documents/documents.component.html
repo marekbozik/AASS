@@ -1,0 +1,58 @@
+<div class="header">
+    <button nbButton outline status="success" (click)="addNewDocument(addDocumentDialog)">Add document</button>
+</div>
+
+<ng-template #addDocumentDialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Add New Document</nb-card-header>
+        <nb-card-body>
+          <form>
+            <input type="text" nbInput id="title" [(ngModel)]="title" name="title" placeholder="Title">
+  
+            <textarea nbInput fullWidth placeholder="Description" [(ngModel)]="textareaItemNgModel" [ngModelOptions]="{standalone: true}"></textarea>
+  
+            <input type="text" nbInput id="class" [(ngModel)]="class" name="class" placeholder="Class">
+          </form>
+        </nb-card-body>
+        <nb-card-footer class="dialog-footer">
+            <button nbButton status="primary" (click)="createNewDocument(ref)">Add</button>
+            <button nbButton status="danger" (click)="ref.close()">Cancel</button>
+        </nb-card-footer>
+      </nb-card>
+</ng-template>
+
+<nb-card>
+    <nb-card-header>
+      <h1 class="h4">Documents</h1>
+    </nb-card-header>
+    <nb-card-body>
+      <table [nbTreeGrid]="documents" equalColumnsWidth>
+  
+        <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+        <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+        <ng-template #dialog let-data let-ref="dialogRef">
+            <nb-card class="dialog">
+              <nb-card-header>{{ data.Title }}</nb-card-header>
+              <nb-card-body>{{ data.Description }}</nb-card-body>
+              <nb-card-footer>
+                <button nbButton (click)="ref.close()">Close</button>
+              </nb-card-footer>
+            </nb-card>
+        </ng-template>
+  
+        <ng-container nbTreeGridColumnDef="Title">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{customColumn}}</th>
+          <td nbTreeGridCell *nbTreeGridCellDef="let row" (click)="openDocument(dialog,row)">
+            {{row.data.Title}}
+          </td>
+        </ng-container>
+  
+        <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{column}}</th>
+          <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column]}}</td>
+        </ng-container>
+      </table>
+  
+    </nb-card-body>
+</nb-card>
