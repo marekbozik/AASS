@@ -26,7 +26,6 @@ export class DasboardComponent implements OnInit {
 
     // get value Toady is Sunday
     this.toady = new Date();
-    console.log(this.toady.getDay());
   }
 
   pickSubjects() {
