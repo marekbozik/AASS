@@ -27,11 +27,11 @@ app.post('/addSubject', (req: Request, res: Response) => {
   subjectService.addSubject(req, res);
 });
 
-app.get('/getSubjects', (req: Request, res: Response) => {
+app.post('/getSubjects', (req: Request, res: Response) => {
   subjectService.getSubjects(req, res);
 });
 
-app.get('/getStudentRegistrations', (req: Request, res: Response) => {
+app.post('/getStudentRegistrations', (req: Request, res: Response) => {
   subjectService.getStudentRegistrations(req, res);
 });
 
@@ -43,7 +43,7 @@ app.post('/addClassification', (req: Request, res: Response) => {
   classificationService.addClassification(req, res);
 });
 
-app.get('/getClassification', (req: Request, res: Response) => {
+app.post('/getClassification', (req: Request, res: Response) => {
   classificationService.getSubjectClassification(req, res);
 });
 
@@ -51,7 +51,7 @@ app.post('/addDocument', (req: Request, res: Response) => {
   documentService.addDocument(req, res);
 });
 
-app.get('/getDocuments', (req: Request, res: Response) => {
+app.post('/getDocuments', (req: Request, res: Response) => {
   documentService.getDocuments(req, res);
 });
 
