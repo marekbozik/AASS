@@ -19,6 +19,8 @@ import {
   NbCardModule,
   NbTreeGridModule,
   NbIconModule,
+  NbSelectModule,
+  NbOptionModule
 } from '@nebular/theme';
 
 @NgModule({
@@ -42,6 +44,8 @@ import {
     ReactiveFormsModule,
     NbTreeGridModule,
     NbIconModule,
+    NbSelectModule,
+    NbOptionModule
   ],
   exports: [
     LoginComponent

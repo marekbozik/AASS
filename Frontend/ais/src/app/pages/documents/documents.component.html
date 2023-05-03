@@ -3,16 +3,16 @@
 </div>
 
 <ng-template #addDocumentDialog let-data let-ref="dialogRef">
-    <nb-card>
+    <nb-card style="max-width: 688px;">
         <nb-card-header>Add New Document</nb-card-header>
         <nb-card-body>
           <form>
-            <input type="text" nbInput id="title" [(ngModel)]="title" name="title" placeholder="Title">
-  
-            <textarea nbInput fullWidth placeholder="Description" [(ngModel)]="textareaItemNgModel" [ngModelOptions]="{standalone: true}"></textarea>
-  
-            <input type="text" nbInput id="class" [(ngModel)]="class" name="class" placeholder="Class">
-          </form>
+            <input type="text" fullWidth nbInput id="title" [(ngModel)]="title" name="title" placeholder="Title">
+
+            <textarea nbInput style="min-width: 638px; max-width: 638px;" fullWidth placeholder="Description" [(ngModel)]="textareaItemNgModel" [ngModelOptions]="{standalone: true}"></textarea>
+    
+            <input type="text" fullWidth nbInput id="class" [(ngModel)]="class" name="class" placeholder="Class">
+        </form>
         </nb-card-body>
         <nb-card-footer class="dialog-footer">
             <button nbButton status="primary" (click)="createNewDocument(ref)">Add</button>
@@ -32,7 +32,7 @@
         <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
 
         <ng-template #dialog let-data let-ref="dialogRef">
-            <nb-card class="dialog">
+            <nb-card style="min-width: 600px; max-width: 900px;" class="dialog">
               <nb-card-header>{{ data.Title }}</nb-card-header>
               <nb-card-body>{{ data.Description }}</nb-card-body>
               <nb-card-footer>

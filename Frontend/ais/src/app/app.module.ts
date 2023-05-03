@@ -7,7 +7,7 @@ import { PagesModule } from './pages/pages.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbActionsModule,
-NbTooltipModule, NbDialogModule } from '@nebular/theme';
+NbTooltipModule, NbDialogModule, NbOptionModule, NbSelectModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
@@ -30,7 +30,9 @@ import { HttpClientModule } from '@angular/common/http';
     NbTooltipModule,
     HttpClientModule,
     NbDialogModule.forRoot(),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NbOptionModule,
+    NbSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
