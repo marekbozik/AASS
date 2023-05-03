@@ -1,18 +1,11 @@
 import { Component, TemplateRef } from '@angular/core';
 import { PagesService } from '../pages.service';
 import { NbDialogService } from '@nebular/theme';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-
-interface TreeNode<T> {
-  data: T;
-}
-
-interface FSEntry {
-  id: number;
-  title: string;
-  description: string;
-}
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
+import { User, TreeNode, FSEntry } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-documents',
@@ -35,19 +28,48 @@ export class DocumentsComponent {
   description: string = '';
   class: string = '';
 
+  user: User = {
+    Id: 0,
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    PasswordHash: '',
+    IsTeacher: false
+  };
+  subjectData: any = [];
+  selectedDocumentType: string = '';
+  form: FormGroup;
+  subjectOptions: any;
+
   constructor(
     private pagesService: PagesService,
     private dialogService: NbDialogService,
-    private toastrService: ToastrService
-  ) {}
+    private toastrService: ToastrService,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.form = this.fb.group({
+      title: ['', Validators.required],
+      description: [''],
+      subject: ['', Validators.required],
+    });
+  }
+
 
   async ngOnInit() {
+    this.user = await this.authService.getUser();
+
+    if (this.user === null || this.user === undefined) {
+      this.authService.logout();
+      return;
+    }
     await this.fetchAllDocuments();
+    await this.fetchAvailableSubjects();
+    
   }
 
   async fetchAllDocuments() {
-    const userId = 42;//this.pagesService.authenticatedUser.Id || 42;
-    await (await this.pagesService.getStudentDocuments(userId)).subscribe(async (data: any) => {
+    await (await this.pagesService.getStudentDocuments(this.user.Id)).subscribe(async (data: any) => {
       this.documents = data[0];
 
       this.documents = data.map((document: any) => {
@@ -64,23 +86,31 @@ export class DocumentsComponent {
     });
   }
 
+  async fetchAvailableSubjects() {
+    await (await this.pagesService.getSubjects(this.user.Id)).subscribe(async (data: any) => {
+      this.subjectData = data;
+    });
+  }
+
   openDocument(dialog: TemplateRef<any>, document: any) {
-    console.log('document', document)
     this.dialogService.open(dialog, { context: document.data });
   }
 
   addNewDocument(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog);
+    this.subjectOptions = this.subjectData.find((subject: any) => subject.TeacherId === this.user.Id);
+    this.dialogService.open(dialog, { context: { subjectOptions: this.subjectOptions } });
   }
 
   async createNewDocument(ref: any) {
-    console.log('haloo', this.title, this.textareaItemNgModel, this.class)
     ref.close({'title': this.title, 'description': this.textareaItemNgModel, 'class': this.class})
+    const subjectId = this.subjectData.find((subject: any) => subject.Code.toLowerCase() === this.class.toLowerCase())?.Id;
 
-    const userId = 44;//this.pagesService.authenticatedUser.Id || 42;
+    if (subjectId === undefined) {
+      this.toastrService.error('Subject not found', 'Error');
+      return;
+    }
 
-    (await this.pagesService.addNewDocument(this.title, this.textareaItemNgModel, 4, userId)).subscribe(async (data: any) => {
-      console.log('data', data)
+    (await this.pagesService.addNewDocument(this.title, this.textareaItemNgModel, subjectId, this.user.Id)).subscribe(async (data: any) => {
 
       if (data.status === 201) {
         this.toastrService.success('Document created successfully', 'Success');

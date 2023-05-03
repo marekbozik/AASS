@@ -1,18 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PagesService } from '../pages.service';
-
-interface TreeNode<T> {
-  data: T;
-}
-
-interface FSEntry {
-  subject: string;
-  grade: number;
-  description: string;
-  teacher: string;
-  date: string;
-  isFinal: boolean;
-}
+import { AuthService } from '../auth.service';
+import { FSEntryGrades, TreeNode, User } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-grades',
@@ -21,22 +10,35 @@ interface FSEntry {
 })
 export class GradesComponent implements OnInit {
   customColumn = 'Subject';
-  defaultColumns = [ 'Grade', 'Description', 'Teacher', 'Date', 'IsFinal' ];
+  defaultColumns = [ 'Grade', 'Description', 'Teacher', 'Date', 'Is Final' ];
   allColumns = [ this.customColumn, ...this.defaultColumns ];
-  myGrades: TreeNode<FSEntry>[] = [];
+  myGrades: TreeNode<FSEntryGrades>[] = [];
+  user: User = {
+    Id: 0,
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    PasswordHash: '',
+    IsTeacher: false,
+  };
 
   constructor(
     private pagesService: PagesService,
+    private authService: AuthService,
   ) {}
 
   async ngOnInit() {
+    this.user = this.authService.getUser();
+
+    if (this.user === null || this.user === undefined) {
+      this.authService.logout();
+      return;
+    }
     await this.fetchAllGrades();
   }
 
   async fetchAllGrades() {
-    //make api call to get grades
-    const userId = 42;//this.pagesService.authenticatedUser.Id || 42;
-    (await this.pagesService.getStudentGrades(userId)).subscribe(async (data: any) => {
+    (await this.pagesService.getStudentGrades(this.user.Id)).subscribe(async (data: any) => {
       
       this.myGrades = data.map((grade: any) => {
         return { data: {
@@ -45,7 +47,7 @@ export class GradesComponent implements OnInit {
           Description: grade.Description,
           Teacher: 'Eugen Molnar',
           Date: '01-01-2020',
-          IsFinal: false,
+          'Is Final': false,
         }}
       });
 

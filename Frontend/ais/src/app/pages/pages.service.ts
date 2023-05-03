@@ -11,17 +11,6 @@ const camundaUrl = 'http://localhost:8080/engine-rest/';
 })
 export class PagesService {
 
-  isAuthenticated = new BehaviorSubject<boolean>(false);
-  authenticatedUser: User = {
-    Id: 42,
-    FirstName: "Adam",
-    LastName: "Plnstak",
-    Email: "adam@plnstak.com",
-    PasswordHash: "sha1$2fcbec7b$1$eaee681cf39d2dc4fd37b02214f04d99f0d09ced",
-    IsTeacher: false
-  };
-  //user = new BehaviorSubject<User>({} as User);
-
   constructor(private http: HttpClient) {}
     
     // api call to try to login

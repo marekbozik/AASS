@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MENU_ITEMS } from './menu.data';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PagesService } from './pages/pages.service';
+import { AuthService } from './pages/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +19,14 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private toastrService: ToastrService,
-    private pagesService: PagesService,
+    private authService: AuthService
   ) {
-    this.pagesService.isAuthenticated.subscribe(isAuthenticated => {
-      this.isAuthenticated = isAuthenticated;
+    this.authService.isAuthenticated().subscribe((res: any) => {
+      if (res) {
+        this.isAuthenticated = true;
+      } else {
+        this.isAuthenticated = false;
+      }
     });
   }
 
@@ -30,8 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.pagesService.isAuthenticated.next(false);
-    localStorage.removeItem('token');
+    this.authService.logout();
     this.toastrService.success('Logout successful', '', {
       positionClass: 'toast-top-right'
     });

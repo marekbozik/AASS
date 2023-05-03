@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PagesService } from '../pages.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private toastrService: ToastrService,
-    private pagesService: PagesService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -31,17 +31,16 @@ export class LoginComponent implements OnInit {
   
   async login() {
     if (this.loginForm.valid) {
-      const email = 'adam@plnstak.com'// this.loginForm.get('email')?.value;
-      const password = 'password';this.loginForm.get('password')?.value;
+      const email = this.loginForm.get('email')?.value;
+      const password = this.loginForm.get('password')?.value;
 
-      (await this.pagesService.login(email, password)).subscribe((res: any) => {
+      (await this.authService.login(email, password)).subscribe((res: any) => {
         if (res.status === 200) {
           this.toastrService.success('Wellcome back!', 'Login successful', {
             positionClass: 'toast-top-right'
           });
 
-          this.pagesService.isAuthenticated.next(true);
-          this.pagesService.authenticatedUser = res.body.user;
+          this.authService.setUser(res.body.user);
           this.router.navigate(['./dashboard']);
         }
 

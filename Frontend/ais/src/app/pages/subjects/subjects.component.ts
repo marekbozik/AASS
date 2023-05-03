@@ -1,29 +1,8 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { PagesService } from '../pages.service';
 import { ToastrService } from 'ngx-toastr';
-
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-
-interface FSEntry {
-  subjectName: string;
-  subjectCode: string;
-  teacher: string;
-}
-
-interface ResponseCamunda {
-  id: string;
-  links?: any[];
-  definitionId?: string;
-  businessKey?: string;
-  caseInstanceId?: string;
-  ended?: boolean;
-  suspended?: boolean;
-  tenantId?: string;
-}
+import { User, ResponseCamunda, TreeNode, FSEntrySubjects } from 'src/app/interfaces';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-subjects',
@@ -37,28 +16,38 @@ export class SubjectsComponent {
   availableSubjectsAllColumns = [ this.customColumn, ...this.defaultColumns, 'actions' ];
   subjects: any = [];
 
-  mySubjects: TreeNode<FSEntry>[] = [];
-  availableSubjects: TreeNode<FSEntry>[] = [];
+  mySubjects: TreeNode<FSEntrySubjects>[] = [];
+  availableSubjects: TreeNode<FSEntrySubjects>[] = [];
   subjectData: any = [];
-  userId: number = 42;
-  uid: number = 0;
+  user: User = {
+    Id: 0,
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    PasswordHash: '',
+    IsTeacher: false
+  };
 
 
   constructor(
     private pagesService: PagesService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private authService: AuthService,
   ) { }
 
   async ngOnInit() {
-    //make api call to get subjects
-    //this.userId = this.pagesService.authenticatedUser.Id;
-    this.uid = this.pagesService.authenticatedUser.Id;
+    this.user = this.authService.getUser();
+
+    if (this.user === null || this.user === undefined) {
+      this.authService.logout();
+      return;
+    }
     await this.fetchSubjects();
     await this.fetchAvailableSubjects();
   }
 
   async fetchSubjects() {
-    await (await this.pagesService.getStudentSubjects(this.userId)).subscribe(async (data: any) => {
+    await (await this.pagesService.getStudentSubjects(this.user.Id)).subscribe(async (data: any) => {
       this.subjects = data.subjectRegistrations;
 
       this.mySubjects = this.subjects.map((subject: any) => {
@@ -70,7 +59,7 @@ export class SubjectsComponent {
   }
 
   async fetchAvailableSubjects() {
-    await (await this.pagesService.getSubjects(this.userId)).subscribe(async (data: any) => {
+    await (await this.pagesService.getSubjects(this.user.Id)).subscribe(async (data: any) => {
       this.subjectData = data;
       this.availableSubjects = data.map((subject: any) => {
         const teacher = subject.Teacher;
@@ -85,7 +74,7 @@ export class SubjectsComponent {
     const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
     let processInstanceId = "";
 
-    const response = await (await this.pagesService.registerStudentToSubjectCamunda(subjectId, this.userId)).toPromise();
+    const response = await (await this.pagesService.registerStudentToSubjectCamunda(subjectId, this.user.Id)).toPromise();
     let body = response?.body as ResponseCamunda;
     processInstanceId = body?.id;
 

@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { PagesService } from '../pages.service';
-import { User } from 'src/app/interfaces';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-dasboard',
@@ -14,13 +13,13 @@ export class DasboardComponent implements OnInit {
   toady = new Date();
 
   constructor(
-    private pagesService: PagesService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    if (this.pagesService.isAuthenticated) {
-      this.name = this.pagesService.authenticatedUser.FirstName;
+    if (this.authService.isAuthenticated()) {
+      this.name = this.authService.getUser().name;
     } else {
       this.router.navigate(['./login']);
     }
