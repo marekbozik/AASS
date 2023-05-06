@@ -72,15 +72,11 @@ export class SubjectsComponent {
   }
 
   async addSubject(subject: any) {
-    console.log(this.subjectRegistrationChannel, this.subjectRegistrationChannel === 'soa', this.subjectRegistrationChannel === 'camunda', this.subjectRegistrationChannel === 'kafka', this.subjectRegistrationChannel.toString() === 'soa');
     if (this.subjectRegistrationChannel === 'soa') {
-      console.log('soa channel');
       await this.addSubjectSoa(subject);
     } else if (this.subjectRegistrationChannel === 'camunda') {
-      console.log('camunda channel');
       await this.addSubjectCamunda(subject);
     } else if (this.subjectRegistrationChannel === 'kafka') {
-      console.log('kafka channel');
       await this.addSubjectKafka(subject);
     }
   }

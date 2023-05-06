@@ -1,3 +1,15 @@
+
+<nb-layout style="display: block; max-width: 100px;max-height: 100px;">
+  <nb-layout-column style="max-width: 100px;max-height: 100px;">
+    <nb-select [(ngModel)]="subjectRegistrationChannel" placeholder="Select api channel">
+      <nb-option value="soa">SOA</nb-option>
+      <nb-option value="camunda">Camunda</nb-option>
+      <nb-option value="kafka">Kafka</nb-option>
+    </nb-select>
+  </nb-layout-column>
+</nb-layout>
+
+
 <nb-card>
   <nb-card-header>
     <h1 class="h4">My subjects</h1>
