@@ -79,8 +79,6 @@ export class SubjectsComponent {
     let body = response?.body as ResponseCamunda;
     processInstanceId = body?.id;
 
-    console.log(processInstanceId)
-
     setTimeout(async () => {
       await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {
         const variables = data.body;
