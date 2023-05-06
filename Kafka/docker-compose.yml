@@ -14,3 +14,4 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "my-topic:1:1,result:1:1,subject:1:1,registration:1:1,synchro:1:1,register:1:1"
