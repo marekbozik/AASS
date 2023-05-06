@@ -141,7 +141,28 @@ export class SubjectsComponent {
   }
 
   async addSubjectKafka(subject: any) {
-    // TODO: implement
+    const clickedSubject = subject.data;
+    const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
+
+    (await this.pagesService.registerStudentToSubjectKafka(subjectId, this.user.Id)).subscribe((data: any) => {
+      if (data.status === 200) {
+        this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
+
+        //make success toast
+        this.toastrService.success('Subject added successfully', 'Success', {
+          positionClass: 'toast-top-right'
+        });
+
+        this.fetchSubjects();
+
+      } else {
+        //make error toast
+        this.toastrService.error('Registration already exists', 'Error', {
+          positionClass: 'toast-top-right'
+        });
+      }
+
+    });
   }
 
 }
