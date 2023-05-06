@@ -76,4 +76,19 @@ export class AuthService {
 
         return user.IsTeacher;
     }
+
+    async getStudents(request: Request, response: Response) {
+        try {
+            const students = await prisma.user.findMany({
+                where: {
+                    IsTeacher: false
+                }
+            });
+
+            return response.status(200).json(students);
+        } catch (err) {
+            console.error(err);
+            return response.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
 }
