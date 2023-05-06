@@ -1,4 +1,4 @@
-<div class="header">
+<div *ngIf="user.IsTeacher" class="header">
     <button nbButton outline status="success" (click)="addNewDocument(addDocumentDialog)">Add document</button>
 </div>
 
