@@ -1,3 +1,26 @@
+<div *ngIf="user.IsTeacher" class="header">
+  <button nbButton outline status="success" (click)="addNewGrade(addGradeDialog)">Add grade</button>
+</div>
+
+<ng-template #addGradeDialog let-data let-ref="dialogRef">
+  <nb-card style="max-width: 688px;">
+      <nb-card-body>
+        <form>
+          <input type="text" fullWidth nbInput id="student" [(ngModel)]="student" name="student" placeholder="Student">
+          <input type="text" fullWidth nbInput id="subjcet" [(ngModel)]="subjcet" name="subject" placeholder="Subject">
+          <input type="text" fullWidth nbInput id="grade" [(ngModel)]="grade" name="grade" placeholder="Grade">
+          <textarea nbInput style="min-width: 638px; max-width: 638px;" fullWidth placeholder="Description" [(ngModel)]="description" [ngModelOptions]="{standalone: true}"></textarea>
+          <p>Is final grade</p>
+          <nb-toggle [ngModel]="isFinalGrade" [ngModelOptions]="{standalone: true}"></nb-toggle>
+      </form>
+      </nb-card-body>
+      <nb-card-footer class="dialog-footer">
+        <button nbButton status="danger" (click)="ref.close()">Cancel</button>
+        <button nbButton status="primary" (click)="submitGrade(ref)">Submit</button>
+      </nb-card-footer>
+    </nb-card>
+</ng-template>
+
 <nb-card>
   <nb-card-header>
     <h1 class="h4">Grades</h1>

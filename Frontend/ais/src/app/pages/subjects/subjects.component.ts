@@ -27,6 +27,7 @@ export class SubjectsComponent {
     PasswordHash: '',
     IsTeacher: false
   };
+  subjectRegistrationChannel: 'soa' | 'camunda' | 'kafka' | '' = '';
 
 
   constructor(
@@ -71,6 +72,45 @@ export class SubjectsComponent {
   }
 
   async addSubject(subject: any) {
+    console.log(this.subjectRegistrationChannel, this.subjectRegistrationChannel === 'soa', this.subjectRegistrationChannel === 'camunda', this.subjectRegistrationChannel === 'kafka', this.subjectRegistrationChannel.toString() === 'soa');
+    if (this.subjectRegistrationChannel === 'soa') {
+      console.log('soa channel');
+      await this.addSubjectSoa(subject);
+    } else if (this.subjectRegistrationChannel === 'camunda') {
+      console.log('camunda channel');
+      await this.addSubjectCamunda(subject);
+    } else if (this.subjectRegistrationChannel === 'kafka') {
+      console.log('kafka channel');
+      await this.addSubjectKafka(subject);
+    }
+  }
+
+  async addSubjectSoa(subject: any) {
+    const clickedSubject = subject.data;
+    const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
+
+    (await this.pagesService.registerStudentToSubject(subjectId, this.user.Id)).subscribe((data: any) => {
+      if (data.status === 201) {
+        this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
+
+        //make success toast
+        this.toastrService.success('Subject added successfully', 'Success', {
+          positionClass: 'toast-top-right'
+        });
+
+        this.fetchSubjects();
+
+      } else {
+        //make error toast
+        this.toastrService.error('Registration already exists', 'Error', {
+          positionClass: 'toast-top-right'
+        });
+      }
+
+    });
+  }
+
+  async addSubjectCamunda(subject: any) {
     const clickedSubject = subject.data;
     const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
     let processInstanceId = "";
@@ -78,8 +118,6 @@ export class SubjectsComponent {
     const response = await (await this.pagesService.registerStudentToSubjectCamunda(subjectId, this.user.Id)).toPromise();
     let body = response?.body as ResponseCamunda;
     processInstanceId = body?.id;
-
-    console.log(processInstanceId)
 
     setTimeout(async () => {
       await (await this.pagesService.getCamundaProcessVariables(processInstanceId)).subscribe((data: any) => {
@@ -100,6 +138,10 @@ export class SubjectsComponent {
         }
       });
     }, 2000);
+  }
+
+  async addSubjectKafka(subject: any) {
+    // TODO: implement
   }
 
 }

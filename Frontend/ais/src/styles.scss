@@ -8,15 +8,17 @@
 
 @import 'ngx-toastr/toastr';
 
-/* You can add global styles to this file, and also import other style files */
+.header {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: end;
+}
 
-// label {
-//   padding: 10px;
-// }
+.dialog {
+  justify-content: center;
+}
 
-// .form-group {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin-bottom: 30px;
-// }
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+}

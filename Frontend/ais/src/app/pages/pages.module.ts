@@ -20,7 +20,8 @@ import {
   NbTreeGridModule,
   NbIconModule,
   NbSelectModule,
-  NbOptionModule
+  NbOptionModule,
+  NbToggleModule
 } from '@nebular/theme';
 
 @NgModule({
@@ -45,7 +46,8 @@ import {
     NbTreeGridModule,
     NbIconModule,
     NbSelectModule,
-    NbOptionModule
+    NbOptionModule,
+    NbToggleModule
   ],
   exports: [
     LoginComponent

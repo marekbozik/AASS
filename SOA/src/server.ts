@@ -55,6 +55,10 @@ app.post('/getDocuments', (req: Request, res: Response) => {
   documentService.getDocuments(req, res);
 });
 
+app.get('/getStudents', (req: Request, res: Response) => {
+  authService.getStudents(req, res);
+});
+
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
 });

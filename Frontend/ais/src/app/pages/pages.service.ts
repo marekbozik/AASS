@@ -19,6 +19,11 @@ export class PagesService {
       return await this.http.post(`${baseUrl}login`, JSON.stringify(body), { headers: headers, observe: 'response' })
     }
 
+    async getStudents() {
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      return await this.http.get(`${baseUrl}getStudents`, { headers: headers, observe: 'response' })
+    }
+
     // api call to get student subjects
     async getStudentSubjects(userId: number) {
       const body = { "subjectId": null, "studentId": userId };
@@ -70,6 +75,13 @@ export class PagesService {
         `http://localhost:8080/engine-rest/process-instance/${processInstanceId}/variables`,
         { headers: headers, observe: 'response' }
       );
+    }
+
+    async addStudentGrade(teacherId: number, studentId: number, subjectId: number, grade: number, description: string, isFinalGrade: boolean) {
+      const body = { "teacherId": teacherId, "studentId": studentId, "subjectId": subjectId, "grade": grade, "description": description, "isFinalGrade": isFinalGrade };
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+      return await this.http.post(`${baseUrl}addClassification`, JSON.stringify(body), { headers: headers, observe: 'response' })
     }
 
     // api call get all student grades
