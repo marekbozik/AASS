@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { group } from 'console';
 import { AuthService } from './auth.service';
+import { Kafka } from 'kafkajs';
 
 const authService = new AuthService();
 
@@ -10,6 +10,28 @@ const prisma = new PrismaClient({
 });
 
 export class SubjectService {
+    async subjectRegistrationKafka(req: Request, res: Response) {
+
+        console.log(req.body)
+        const { subjectId, studentId } = req.body;
+
+        const kafka = new Kafka({
+            clientId: 'my-app',
+            brokers: ['localhost:9092']
+          });
+        const producer = kafka.producer();
+        const kafka_topic = 'my-topic';
+
+        await producer.connect();
+
+        await producer.send({
+        topic: kafka_topic,
+        messages: [{ value:(`${subjectId},${studentId}`).toString(), key: 'key' }]
+        });
+
+        await producer.disconnect();
+    }
+
     async addSubject(request: Request, response: Response) {
         const { name, code, teacherId } = request.body;
 

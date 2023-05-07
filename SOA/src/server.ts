@@ -39,6 +39,10 @@ app.post('/subjectRegistration', (req: Request, res: Response) => {
   subjectService.subjectRegistration(req, res);
 });
 
+app.post('/subjectRegistrationKafka', (req: Request, res: Response) => {
+  subjectService.subjectRegistrationKafka(req, res);
+});
+
 app.post('/addClassification', (req: Request, res: Response) => {
   classificationService.addClassification(req, res);
 });
