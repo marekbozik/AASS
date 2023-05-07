@@ -1,15 +1,16 @@
-<div style="width: 60%; margin: auto;">
+<div style="width: 50%;margin: auto;max-width: 500px;">
     <nb-card>
-      <nb-card-header>
-        <h1 class="h4">Login</h1>
+      <nb-card-header style="display: flex;">
+        <h1 class="h4" style="margin: auto;">Login</h1>
       </nb-card-header>
-      <nb-card-body>
+      <nb-card-body style="width: 90%;margin-left: 5%;max-width: 500px;">
         <form [formGroup]="loginForm" (ngSubmit)="login()">
           <div class="form-group">
             <label >Email</label>
             <input
               type="email"
               nbInput
+              fullWidth
               formControlName="email"
               class="form-control"
               placeholder="Enter email"
@@ -33,6 +34,7 @@
             <input
               type="password"
               nbInput
+              fullWidth
               formControlName="password"
               class="form-control"
               placeholder="Enter password"
