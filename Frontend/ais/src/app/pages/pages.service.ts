@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 
 const baseUrl = 'http://localhost:3000/';
 const camundaUrl = 'http://localhost:8080/engine-rest/';
-const kafkaUrl = 'http://localhost:5039/subjectRegistration?';
 
 @Injectable({
   providedIn: 'root'
@@ -70,9 +69,10 @@ export class PagesService {
     }
 
     async registerStudentToSubjectKafka(subjectId: number, studentId: number) {
+      const body = { "subjectId": subjectId, "studentId": studentId };
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-      return await this.http.post(`${kafkaUrl}subjectId=${subjectId}&studentId=${studentId}`, { headers: headers, observe: 'response' })
+      return await this.http.post(`${baseUrl}subjectRegistrationKafka`, JSON.stringify(body), { headers: headers, observe: 'response' });
     }
 
     // api call to get all process variables for a subject registration process instance

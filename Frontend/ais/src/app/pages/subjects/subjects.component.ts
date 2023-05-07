@@ -62,7 +62,6 @@ export class SubjectsComponent {
   async fetchAvailableSubjects() {
     await (await this.pagesService.getSubjects(this.user.Id)).subscribe(async (data: any) => {
       this.subjectData = data.body;
-      console.log(data)
       this.availableSubjects = data.body?.map((subject: any) => {
         const teacher = subject.Teacher;
         const tmp = { data: { subjectName: subject.Name, subjectCode: subject.Code, teacher: teacher.FirstName + ' ' + teacher.LastName } };
@@ -141,24 +140,11 @@ export class SubjectsComponent {
     const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
 
     (await this.pagesService.registerStudentToSubjectKafka(subjectId, this.user.Id)).subscribe((data: any) => {
-      if (data.status === 200) {
-        this.mySubjects.push({ data: { subjectName: clickedSubject.subjectName, subjectCode: clickedSubject.subjectCode, teacher: clickedSubject.teacher }});  
-
-        //make success toast
-        this.toastrService.success('Subject added successfully', 'Success', {
-          positionClass: 'toast-top-right'
-        });
-
-        this.fetchSubjects();
-
-      } else {
-        //make error toast
-        this.toastrService.error('Registration already exists', 'Error', {
-          positionClass: 'toast-top-right'
-        });
-      }
-
     });
+
+    setTimeout(() => {
+      this.fetchSubjects();
+    }, 2000);
   }
 
 }
