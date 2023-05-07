@@ -47,40 +47,46 @@ export class DocumentService {
     }
 
     async getDocuments(request: Request, response: Response) {
-        let { subjectId, userId } = request.body;
-        subjectId = 4;
-        userId = 42;
+        let userId = request.body.userId;
+        console.log('userId', userId);
 
         try {
-            const subject = await subjectService.getSubjects(request, null);
-
-            if (!subject) {
-                return response.status(404).json({ message: 'Subject not found' });
-            }
-
-            const isTeacher = await authService.isUserTeacher(userId);
-
-            if (!isTeacher) {
-                const subjectStudents = await prisma.groupMembers.findMany({
-                    where: {
-                        GroupId: subjectId
-                    }
-                });
-
-                const student = subjectStudents.find(student => student.UserId === userId);
-
-                if (!student) {
-                    return response.status(404).json({ message: 'Student not found' });
-                }
-            }
-
-            const documents = await prisma.document.findMany({
+            const studentSubjects = await prisma.groupMembers.findMany({
                 where: {
-                    GroupId: subjectId
+                    UserId: userId,
                 }
             });
 
-            return await response.status(201).json(documents);
+            console.log('studentSubjects', studentSubjects);
+
+            if (studentSubjects.length > 0) {
+                const documents = await prisma.document.findMany({
+                    where: {
+                        GroupId: { in: studentSubjects.map(subject => subject.GroupId) }
+                    }
+                });
+
+                return await response.status(201).json(documents);
+            } else {
+                if (await authService.isUserTeacher(userId)) {
+                    const teacherSubjects = await prisma.group.findMany({
+                        where: {
+                            TeacherId: userId,
+                        }
+                    });
+
+                    const documents = await prisma.document.findMany({
+                        where: {
+                            GroupId: { in: teacherSubjects.map(subject => subject.Id) }
+                        }
+                    });
+
+                    return await response.status(201).json(documents);
+                }
+
+                return response.status(404).json({ message: 'Student not found' });
+            }
+
         } catch (err) {
             return response.status(500).json({ error: 'Internal Server Error' });
         }
