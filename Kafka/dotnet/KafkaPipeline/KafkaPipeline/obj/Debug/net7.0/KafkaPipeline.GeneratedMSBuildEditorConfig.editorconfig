@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = KafkaPipeline
-build_property.ProjectDir = C:\Users\marek\Documents\AASS\AASS\Kafka\dotnet\KafkaPipeline\KafkaPipeline\
+build_property.ProjectDir = /Users/davidpetricko/Developer/Fiit-projects/2. semester/AASS/AASS/Kafka/dotnet/KafkaPipeline/KafkaPipeline/

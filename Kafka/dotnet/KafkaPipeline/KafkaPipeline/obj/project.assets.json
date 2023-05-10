@@ -2563,26 +2563,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marek\\.nuget\\packages\\": {}
+    "/Users/davidpetricko/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marek\\Documents\\AASS\\AASS\\Kafka\\dotnet\\KafkaPipeline\\KafkaPipeline\\KafkaPipeline.csproj",
+      "projectUniqueName": "/Users/davidpetricko/Developer/Fiit-projects/2. semester/AASS/AASS/Kafka/dotnet/KafkaPipeline/KafkaPipeline/KafkaPipeline.csproj",
       "projectName": "KafkaPipeline",
-      "projectPath": "C:\\Users\\marek\\Documents\\AASS\\AASS\\Kafka\\dotnet\\KafkaPipeline\\KafkaPipeline\\KafkaPipeline.csproj",
-      "packagesPath": "C:\\Users\\marek\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marek\\Documents\\AASS\\AASS\\Kafka\\dotnet\\KafkaPipeline\\KafkaPipeline\\obj\\",
+      "projectPath": "/Users/davidpetricko/Developer/Fiit-projects/2. semester/AASS/AASS/Kafka/dotnet/KafkaPipeline/KafkaPipeline/KafkaPipeline.csproj",
+      "packagesPath": "/Users/davidpetricko/.nuget/packages/",
+      "outputPath": "/Users/davidpetricko/Developer/Fiit-projects/2. semester/AASS/AASS/Kafka/dotnet/KafkaPipeline/KafkaPipeline/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\marek\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/davidpetricko/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2626,7 +2625,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
       }
     }
   }
