@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
         this.isAuthenticated = true;
       } else {
         this.isAuthenticated = false;
+        this.router.navigate(['./login']);
       }
     });
   }

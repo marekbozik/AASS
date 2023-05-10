@@ -136,7 +136,6 @@ export class SubjectsComponent {
   }
 
   async addSubjectKafka(subject: any) {
-    const clickedSubject = subject.data;
     const subjectId = this.subjectData.find((s: any) => s.Code === subject.data.subjectCode).Id;
 
     (await this.pagesService.registerStudentToSubjectKafka(subjectId, this.user.Id)).subscribe((data: any) => {
@@ -144,7 +143,7 @@ export class SubjectsComponent {
 
     setTimeout(() => {
       this.fetchSubjects();
-    }, 2000);
+    }, 3000);
   }
 
 }
